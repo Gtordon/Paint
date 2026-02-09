@@ -1,57 +1,66 @@
 * {
-	box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body {
-	height: 100%;
-	margin: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-	background-image: url();
+  height: 100%;
+  margin: 0;
+  background-image: url("imagenes/c709cd7da7e51e96f609ce9a4a4b7f37.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
-.toolbar {
-	display: flex;
-	gap: 12px;
-	padding: 10px;
-	background: #ffffff;
-	align-items: center;
-	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+.barra {
+  display: flex;
+  gap: 12px;
+  padding: 10px;
+  background: #303030;
+  align-items: center;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
 }
+
 .tool-item {
-	display: flex;
-	align-items: center;
-	gap: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #ffffff;
 }
 
 label {
-	font-size: 14px;
-	color: #111827;
-}
-button {
-	padding: 6px 10px;
-	border: 1px solid #cbd5e1;
-	background: #fff;
-	border-radius: 6px;
-	cursor: pointer;
-}
-button:active {
-	transform: translateY(1px);
+  font-size: 14px;
+  color: #111827;
 }
 
-.canvas-wrap {
-	padding: 12px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: calc(100vh - 64px);
+button {
+  padding: 6px 10px;
+  border: 1px solid #cbd5e1;
+  background: #fff;
+  border-radius: 6px;
+  cursor: pointer;
 }
-canvas#paint {
-	background: #ffffff;
-	border: 1px solid #d1d5db;
-	border-radius: 6px;
-	width: 800px;
-	height: 600px;
-	touch-action: none;
-	box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
-	cursor: crosshair;
+
+
+
+.canvas-wrap {
+  padding: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 64px);
+}
+
+canvas#canvas {
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  touch-action: none;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+  cursor: crosshair;
+}
+
+.barra a img {
+  height: 40px;
+  width: auto;
+  display: block;
 }

@@ -3,19 +3,29 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Paint - Recuadro</title>
+	<title>Paint</title>
 	<link rel="stylesheet" href="style.css">
 </head>
 <body>
-	<div class="toolbar">
-		<label class="tool-item">Color: <input id="color" type="color" value="#000000"></label>
-		<label class="tool-item">Grosor: <input id="size" type="range" min="1" max="50" value="5"></label>
-		<button id="clear">Limpiar</button>
-		<button id="save">Guardar</button>
+	<div class="barra">
+		<a>
+			<img src="https://fontmeme.com/permalink/260209/0d00fe98.png" alt="Color" border="0">
+		</a>
+		<label class="tool-item"><input id="color" type="color" value="#000000"></label>
+
+		<a>
+			<img src="https://fontmeme.com/permalink/260209/0cf7bf0b.png" alt="Grosor" border="0">
+		</a>
+		<label class="tool-item"><input id="size" type="range" min="1" max="50" value="5"></label>
+
+		<button id="lineBtn">Línea</button>
+		<button id="circleBtn">Círculo</button>
 	</div>
 
 	<div class="canvas-wrap">
-		<canvas id="paint" aria-label="Área de dibujo"></canvas>
+		<canvas id="canvas" width="1000" height="800">
+			Tu navegador no admite el elemento &lt;canvas&gt;.
+		</canvas>
 	</div>
 
 	<script src="javascript.js"></script>
