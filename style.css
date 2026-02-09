@@ -1,0 +1,57 @@
+* {
+	box-sizing: border-box;
+}
+
+body {
+	height: 100%;
+	margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	background-image: url();
+}
+
+.toolbar {
+	display: flex;
+	gap: 12px;
+	padding: 10px;
+	background: #ffffff;
+	align-items: center;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+.tool-item {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+label {
+	font-size: 14px;
+	color: #111827;
+}
+button {
+	padding: 6px 10px;
+	border: 1px solid #cbd5e1;
+	background: #fff;
+	border-radius: 6px;
+	cursor: pointer;
+}
+button:active {
+	transform: translateY(1px);
+}
+
+.canvas-wrap {
+	padding: 12px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: calc(100vh - 64px);
+}
+canvas#paint {
+	background: #ffffff;
+	border: 1px solid #d1d5db;
+	border-radius: 6px;
+	width: 800px;
+	height: 600px;
+	touch-action: none;
+	box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+	cursor: crosshair;
+}
