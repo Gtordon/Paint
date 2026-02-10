@@ -1,33 +1,42 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Paint</title>
-	<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paint</title>
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-	<div class="barra">
-		<a>
-			<img src="https://fontmeme.com/permalink/260209/0d00fe98.png" alt="Color" border="0">
-		</a>
-		<label class="tool-item"><input id="color" type="color" value="#000000"></label>
 
-		<a>
-			<img src="https://fontmeme.com/permalink/260209/0cf7bf0b.png" alt="Grosor" border="0">
-		</a>
-		<label class="tool-item"><input id="size" type="range" min="1" max="50" value="5"></label>
+  <div class="barra">
 
-		<button id="lineBtn">Línea</button>
-		<button id="circleBtn">Círculo</button>
-	</div>
+    <label class="tool-item">
+      Grosor:
+      <input id="size" type="range" min="1" max="50" value="5">
+    </label>
 
-	<div class="canvas-wrap">
-		<canvas id="canvas" width="1000" height="800">
-			Tu navegador no admite el elemento &lt;canvas&gt;.
-		</canvas>
-	</div>
+    <button type="button" id="lineBtn">Línea</button>
+    <button type="button" id="circleBtn">Círculo</button>
+    <button type="button" id="clearBtn">Limpiar</button>
 
-	<script src="javascript.js"></script>
+    <div class="container colores-barra">
+      <div class="color activado" id="black" onclick="cambiaColor(this)"></div>
+      <div class="color" id="green" onclick="cambiaColor(this)"></div>
+      <div class="color" id="red" onclick="cambiaColor(this)"></div>
+      <div class="color" id="blue" onclick="cambiaColor(this)"></div>
+      <div class="color" id="yellow" onclick="cambiaColor(this)"></div>
+      <div class="color" id="orange" onclick="cambiaColor(this)"></div>
+    </div>
+  </div>
+
+  <!-- ----------- CANVAS ----------- -->
+  <div class="canvas-wrap">
+    <canvas id="canvas" width="1000" height="800">
+      Tu navegador no admite el elemento canvas.
+    </canvas>
+  </div>
+
+  <script src="javascript.js"></script>
 </body>
 </html>

@@ -1,108 +1,154 @@
-// ----------------- SELECCIÓN DE ELEMENTOS -----------------
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
-const colorPicker = document.getElementById('color');
 const brushSize = document.getElementById('size');
 
-// ----------------- VARIABLES DE CONTROL -----------------
 let painting = false;
-let currentTool = 'line'; // 'line' o 'circle'
-let startX = 0, startY = 0;
+let currentTool = 'line';
+let startX = 0;
+let startY = 0;
 let snapshot = null;
 
-// ----------------- AJUSTE DEL CANVAS -----------------
+let elementoColor = null;
+let currentColor = 'black';
+
+document.addEventListener('DOMContentLoaded', () => {
+  elementoColor = document.getElementById('black');
+});
+
 function resizeCanvas() {
-    const ratio = window.devicePixelRatio || 1;
-    const rect = canvas.getBoundingClientRect();
-    canvas.width = Math.max(1, Math.floor(rect.width * ratio));
-    canvas.height = Math.max(1, Math.floor(rect.height * ratio));
-    ctx.setTransform(1, 0, 0, 1, 0, 0);
-    ctx.scale(ratio, ratio);
+  const rect = canvas.getBoundingClientRect();
+  
+  const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  
+  canvas.style.width = rect.width + 'px';
+  canvas.style.height = rect.height + 'px';
+  
+  if (imgData) {
+    ctx.putImageData(imgData, 0, 0);
+  }
 }
+
 window.addEventListener('load', resizeCanvas);
 window.addEventListener('resize', resizeCanvas);
 
-// ----------------- FUNCIÓN PARA POSICIÓN DEL RATÓN -----------------
 function getPos(e) {
-    const rect = canvas.getBoundingClientRect();
-    if (e.touches && e.touches[0]) {
-        return { x: e.touches[0].clientX - rect.left, y: e.touches[0].clientY - rect.top };
-    }
-    return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+  const rect = canvas.getBoundingClientRect();
+  const scaleX = canvas.width / rect.width;
+  const scaleY = canvas.height / rect.height;
+  
+  return {
+    x: (e.clientX - rect.left) * scaleX,
+    y: (e.clientY - rect.top) * scaleY
+  };
 }
 
-// ----------------- BOTONES PARA HERRAMIENTAS -----------------
-document.getElementById('lineBtn').addEventListener('click', () => currentTool = 'line');
-document.getElementById('circleBtn').addEventListener('click', () => currentTool = 'circle');
 
-// ----------------- EVENTOS DEL CANVAS -----------------
+document.getElementById('lineBtn').addEventListener('click', () => {
+  currentTool = 'line';
+  console.log('Herramienta: Línea');
+});
+
+document.getElementById('circleBtn').addEventListener('click', () => {
+  currentTool = 'circle';
+  console.log('Herramienta: Círculo');
+});
+
+document.getElementById('clearBtn').addEventListener('click', () => {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  console.log('Canvas limpiado');
+});
+
 function start(e) {
-    e.preventDefault();
-    painting = true;
-    const p = getPos(e);
-    startX = p.x;
-    startY = p.y;
+  e.preventDefault();
+  painting = true;
 
-    ctx.strokeStyle = colorPicker.value;
-    ctx.fillStyle = colorPicker.value;
-    ctx.lineWidth = Number(brushSize.value);
-    ctx.lineCap = 'round';
+  const p = getPos(e);
+  startX = p.x;
+  startY = p.y;
 
-    if (currentTool === 'line') {
-        ctx.beginPath();
-        ctx.moveTo(startX, startY);
-    } else if (currentTool === 'circle') {
-        // Guardamos la imagen actual para poder “arrastrar” el círculo sin borrar lo demás
-        snapshot = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    }
+  snapshot = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+  ctx.strokeStyle = currentColor;
+  ctx.lineWidth = brushSize.value;
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+
+  if (currentTool === 'line') {
+    ctx.beginPath();
+    ctx.moveTo(startX, startY);
+  }
 }
 
 function move(e) {
-    if (!painting) return;
-    e.preventDefault();
-    const p = getPos(e);
+  if (!painting) return;
+  e.preventDefault();
 
-    if (currentTool === 'line') {
-        ctx.lineTo(p.x, p.y);
-        ctx.stroke();
-    } else if (currentTool === 'circle') {
-        ctx.putImageData(snapshot, 0, 0);
+  const p = getPos(e);
 
-        let dx = (p.x - startX) ** 2;
-        let dy = (p.y - startY) ** 2;
-        let radio = Math.sqrt(dx + dy);
+  if (currentTool === 'line') {
+    ctx.lineTo(p.x, p.y);
+    ctx.stroke();
+  }
 
-        // ----------------- ESTE ES EL CÍRCULO (mientras arrastras) -----------------
-        ctx.beginPath();
-        ctx.arc(startX, startY, radio, 0, 2 * Math.PI);
-        ctx.closePath();
-        ctx.stroke();
-    }
+  if (currentTool === 'circle') {
+    ctx.putImageData(snapshot, 0, 0);
+    
+    const dx = p.x - startX;
+    const dy = p.y - startY;
+    const radius = Math.sqrt(dx * dx + dy * dy);
+
+    ctx.beginPath();
+    ctx.arc(startX, startY, radius, 0, Math.PI * 2);
+    ctx.stroke();
+  }
 }
 
 function end(e) {
-    if (!painting) return;
-    e && e.preventDefault();
-    painting = false;
+  if (!painting) return;
+  painting = false;
 
-    if (currentTool === 'line') {
-        ctx.closePath();
-    } else if (currentTool === 'circle') {
-        const p = getPos(e);
-        let dx = (p.x - startX) ** 2;
-        let dy = (p.y - startY) ** 2;
-        let radio = Math.sqrt(dx + dy);
-
-        // ----------------- ESTE ES EL CÍRCULO (al soltar) -----------------
-        ctx.beginPath();
-        ctx.arc(startX, startY, radio, 0, 2 * Math.PI);
-        ctx.closePath();
-        ctx.stroke();
-    }
+  if (currentTool === 'line') {
+    ctx.closePath();
+  }
 }
 
-// ----------------- ESCUCHAR EVENTOS -----------------
 canvas.addEventListener('mousedown', start);
 canvas.addEventListener('mousemove', move);
 canvas.addEventListener('mouseup', end);
 canvas.addEventListener('mouseleave', end);
+
+canvas.addEventListener('touchstart', (e) => {
+  const touch = e.touches[0];
+  const mouseEvent = new MouseEvent('mousedown', {
+    clientX: touch.clientX,
+    clientY: touch.clientY
+  });
+  canvas.dispatchEvent(mouseEvent);
+});
+
+canvas.addEventListener('touchmove', (e) => {
+  e.preventDefault();
+  const touch = e.touches[0];
+  const mouseEvent = new MouseEvent('mousemove', {
+    clientX: touch.clientX,
+    clientY: touch.clientY
+  });
+  canvas.dispatchEvent(mouseEvent);
+});
+
+canvas.addEventListener('touchend', (e) => {
+  const mouseEvent = new MouseEvent('mouseup', {});
+  canvas.dispatchEvent(mouseEvent);
+});
+
+function cambiaColor(color) {
+  if (elementoColor) {
+    elementoColor.classList.remove('activado');
+  }
+
+  color.classList.add('activado');
+  elementoColor = color;
+
+  currentColor = color.id;
+  console.log('Color cambiado a:', currentColor);
+}
