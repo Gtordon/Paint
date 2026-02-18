@@ -1,4 +1,3 @@
-/* ---------------- RESET BÁSICO ---------------- */
 * {
   box-sizing: border-box;
 }
@@ -17,7 +16,6 @@ body {
   background-color: #1a1a1a;
 }
 
-/* ---------------- BARRA DE HERRAMIENTAS ---------------- */
 .barra {
   display: flex;
   gap: 12px;
@@ -60,7 +58,6 @@ button:active {
   background: #9ca3af;
 }
 
-/* ---------------- CANVAS ---------------- */
 .canvas-wrap {
   padding: 20px;
   display: flex;
@@ -80,7 +77,6 @@ canvas {
   max-height: 100%;
 }
 
-/* ---------------- COLORES ---------------- */
 .container {
   width: auto;
   display: flex;
@@ -115,7 +111,6 @@ canvas {
   outline-offset: 2px;
 }
 
-/* ---- PALETA DENTRO DE LA BARRA ---- */
 .colores-barra {
   display: flex;
   gap: 8px;
